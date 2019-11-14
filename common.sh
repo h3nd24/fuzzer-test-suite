@@ -19,7 +19,9 @@ STANDALONE_TARGET=0
 AFL_SRC=${AFL_SRC:-$(dirname $(dirname $SCRIPT_DIR))/AFL}
 HONGGFUZZ_SRC=${HONGGFUZZ_SRC:-$(dirname $(dirname $SCRIPT_DIR))/honggfuzz}
 COVERAGE_FLAGS="-O0 -fsanitize-coverage=trace-pc-guard"
-FUZZ_CXXFLAGS="-O2 -fno-omit-frame-pointer -gline-tables-only -fsanitize=address -fsanitize-address-use-after-scope -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
+#FUZZ_CXXFLAGS="-O2 -fno-omit-frame-pointer -gline-tables-only -fsanitize=address -fsanitize-address-use-after-scope -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
+#FUZZ_CXXFLAGS="-m32 -O2 -fno-omit-frame-pointer -gline-tables-only -fsanitize=address -fsanitize-address-use-after-scope -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
+FUZZ_CXXFLAGS="-m32 -fsanitize=address"
 CORPUS=CORPUS-$EXECUTABLE_NAME_BASE
 JOBS=${JOBS:-"8"}
 
@@ -39,6 +41,13 @@ elif [[ $FUZZING_ENGINE == "honggfuzz" ]]; then
 elif [[ $FUZZING_ENGINE == "coverage" ]]; then
   export CFLAGS=${CFLAGS:-$COVERAGE_FLAGS}
   export CXXFLAGS=${CXXFLAGS:-$COVERAGE_FLAGS}
+elif [[ $FUZZING_ENGINE == "afl" ]]; then
+  export AFL_CC="clang"
+  export AFL_CXX="clang++"
+  export CC=${AFL_SRC}/afl-clang-fast
+  export CXX=${AFL_SRC}/afl-clang-fast++
+  export CFLAGS=${CFLAGS:-"$FUZZ_CXXFLAGS"}
+  export CXXFLAGS=${CXXFLAGS:-"$FUZZ_CXXFLAGS"}
 else
   export CFLAGS=${CFLAGS:-"$FUZZ_CXXFLAGS"}
   export CXXFLAGS=${CXXFLAGS:-"$FUZZ_CXXFLAGS"}
@@ -66,9 +75,9 @@ get_svn_revision() {
 }
 
 build_afl() {
-  $CC $CFLAGS -c -w $AFL_SRC/llvm_mode/afl-llvm-rt.o.c
+#  $CC $CFLAGS -c -w $AFL_SRC/llvm_mode/afl-llvm-rt.o.c
   $CXX $CXXFLAGS -std=c++11 -O2 -c ${LIBFUZZER_SRC}/afl/afl_driver.cpp -I$LIBFUZZER_SRC
-  ar r $LIB_FUZZING_ENGINE afl_driver.o afl-llvm-rt.o.o
+  ar r $LIB_FUZZING_ENGINE afl_driver.o #afl-llvm-rt.o.o
   rm *.o
 }
 
