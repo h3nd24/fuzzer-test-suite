@@ -10,7 +10,7 @@ build_ogg() {
   rm -rf BUILD/ogg
   mkdir -p BUILD/ogg $INSTALL_DIR
   cp -r SRC/ogg/* BUILD/ogg/
-  (cd BUILD/ogg && ./autogen.sh && ./configure \
+  (cd BUILD/ogg && ./autogen.sh --host=i386-linux && ./configure \
     --prefix="$INSTALL_DIR" \
     --enable-static \
     --disable-shared \
@@ -23,7 +23,7 @@ build_vorbis() {
   rm -rf BUILD/vorbis
   mkdir -p BUILD/vorbis $INSTALL_DIR
   cp -r SRC/vorbis/* BUILD/vorbis/
-  (cd BUILD/vorbis && ./autogen.sh && ./configure \
+  (cd BUILD/vorbis && ./autogen.sh --host=i386-linux && ./configure \
     --prefix="$INSTALL_DIR" \
     --enable-static \
     --disable-shared \

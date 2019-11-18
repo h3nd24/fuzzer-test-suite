@@ -7,7 +7,7 @@
 build_lib() {
   rm -rf BUILD
   cp -rf SRC BUILD
-  (cd BUILD/build && ./autogen.sh && cd .. && ./configure --host=i386-linux --without-nettle && make -j $JOBS)
+  (cd BUILD/build && ./autogen.sh --host=i386-linux && cd .. && ./configure --host=i386-linux --without-nettle && make -j $JOBS)
 }
 
 get_git_revision https://github.com/libarchive/libarchive.git 51d7afd3644fdad725dd8faa7606b864fd125f88 SRC
