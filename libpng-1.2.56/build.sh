@@ -10,7 +10,7 @@
 build_lib() {
   rm -rf BUILD
   cp -rf libpng-1.2.56 BUILD
-  (cd BUILD && ./configure &&  make -j $JOBS)
+  (cd BUILD && ./configure --host=i386-linux &&  make -j $JOBS)
 }
 
 build_lib || exit 1
@@ -21,5 +21,5 @@ if [[ $FUZZING_ENGINE == "hooks" ]]; then
 fi
 set -x
 $CXX $CXXFLAGS -std=c++11 $SCRIPT_DIR/target.cc BUILD/.libs/libpng12.a $LIB_FUZZING_ENGINE -I BUILD/ -I BUILD -lz -o $EXECUTABLE_NAME_BASE
-$CXX $CXXFLAGS -std=c++11 $SCRIPT_DIR/target.cc BUILD/.libs/libpng12.a $LIB_FUZZING_ENGINE -I BUILD/ -I BUILD -lz -o $EXECUTABLE_NAME_BASE-structure-aware \
-  -include $SCRIPT_DIR/png_mutator.h -DPNG_MUTATOR_DEFINE_LIBFUZZER_CUSTOM_MUTATOR -DSTANDALONE_TARGET=$STANDALONE_TARGET
+#$CXX $CXXFLAGS -std=c++11 $SCRIPT_DIR/target.cc BUILD/.libs/libpng12.a $LIB_FUZZING_ENGINE -I BUILD/ -I BUILD -lz -o $EXECUTABLE_NAME_BASE-structure-aware \
+#  -include $SCRIPT_DIR/png_mutator.h -DPNG_MUTATOR_DEFINE_LIBFUZZER_CUSTOM_MUTATOR -DSTANDALONE_TARGET=$STANDALONE_TARGET

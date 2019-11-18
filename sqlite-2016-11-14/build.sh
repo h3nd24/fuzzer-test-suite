@@ -13,5 +13,7 @@ if [[ $FUZZING_ENGINE == "hooks" ]]; then
   # Link ASan runtime so we can hook memcmp et al.
   LIB_FUZZING_ENGINE="$LIB_FUZZING_ENGINE -fsanitize=address"
 fi
-$CXX $CXXFLAGS -ldl -pthread sqlite3.o ossfuzz.o $LIB_FUZZING_ENGINE \
+#$CXX $CXXFLAGS -ldl -pthread sqlite3.o ossfuzz.o $LIB_FUZZING_ENGINE \
+#  -o $EXECUTABLE_NAME_BASE
+$CXX $CXXFLAGS -ldl sqlite3.o ossfuzz.o $LIB_FUZZING_ENGINE \
   -o $EXECUTABLE_NAME_BASE

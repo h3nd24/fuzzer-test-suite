@@ -9,7 +9,7 @@ get_git_revision https://github.com/behdad/harfbuzz.git  f73a87d9a8c76a181794b74
 build_lib() {
   rm -rf BUILD
   cp -rf SRC BUILD
-  (cd BUILD && ./autogen.sh && CCLD="$CXX $CXXFLAGS" ./configure --enable-static --disable-shared &&
+  (cd BUILD && ./autogen.sh && CCLD="$CXX $CXXFLAGS" ./configure --enable-static --disable-shared --host=i386-linux &&
     make -j $JOBS -C src fuzzing)
 }
 

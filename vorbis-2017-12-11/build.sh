@@ -15,6 +15,7 @@ build_ogg() {
     --enable-static \
     --disable-shared \
     --disable-crc \
+    --host=i386-linux \
     && make clean && make -j $JOBS && make install)
 }
 
@@ -26,6 +27,7 @@ build_vorbis() {
     --prefix="$INSTALL_DIR" \
     --enable-static \
     --disable-shared \
+    --host=i386-linux \
     && make clean && make -j $JOBS && make install)
 }
 
