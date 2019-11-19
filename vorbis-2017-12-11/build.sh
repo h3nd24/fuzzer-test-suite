@@ -23,6 +23,7 @@ build_vorbis() {
   rm -rf BUILD/vorbis
   mkdir -p BUILD/vorbis $INSTALL_DIR
   cp -r SRC/vorbis/* BUILD/vorbis/
+  sed -i "s/-mno-ieee-fp//g" BUILD/vorbis/configure.ac
   (cd BUILD/vorbis && ./autogen.sh --host=i386-linux && \
     PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:/vorbis/INSTALL/lib/pkgconfig ./configure  \
     --prefix="$INSTALL_DIR" \
