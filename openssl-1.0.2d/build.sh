@@ -7,7 +7,7 @@
 build_lib() {
   rm -rf BUILD
   cp -rf SRC BUILD
-  (cd BUILD && CC="$CC $CFLAGS" ./config no-threads && make clean && make -j $JOBS)
+  (cd BUILD && CC="$CC $CFLAGS" ./Configure linux-generic32 no-threads && make clean && make -j $JOBS)
 }
 
 get_git_tag https://github.com/openssl/openssl.git OpenSSL_1_0_2d SRC

@@ -8,7 +8,7 @@ build_lib() {
   rm -rf BUILD
   cp -rf SRC BUILD
   # This version of openssl has unstable parallel make => Don't use `make -j `.
-  (cd BUILD && CC="$CC $CFLAGS" ./config 386 no-threads && make clean && make)
+  (cd BUILD && CC="$CC $CFLAGS" ./Configure linux-generic32 no-threads && make clean && make)
 }
 
 get_git_tag https://github.com/openssl/openssl.git OpenSSL_1_0_1f SRC
