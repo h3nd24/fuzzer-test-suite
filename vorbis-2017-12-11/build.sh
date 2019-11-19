@@ -23,7 +23,8 @@ build_vorbis() {
   rm -rf BUILD/vorbis
   mkdir -p BUILD/vorbis $INSTALL_DIR
   cp -r SRC/vorbis/* BUILD/vorbis/
-  (cd BUILD/vorbis && ./autogen.sh --host=i386-linux && ./configure \
+  (cd BUILD/vorbis && ./autogen.sh --host=i386-linux && \
+    PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:/vorbis/INSTALL/lib/pkgconfig ./configure  \
     --prefix="$INSTALL_DIR" \
     --enable-static \
     --disable-shared \
