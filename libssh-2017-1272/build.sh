@@ -19,5 +19,7 @@ if [[ $FUZZING_ENGINE == "hooks" ]]; then
   LIB_FUZZING_ENGINE="$LIB_FUZZING_ENGINE -fsanitize=address"
 fi
 set -x
-$CXX $CXXFLAGS -std=c++11 "$SCRIPT_DIR/libssh_server_fuzzer.cc" -I BUILD/include/ BUILD/build/src/libssh.a $LIB_FUZZING_ENGINE -lcrypto -lgss -lz -o $EXECUTABLE_NAME_BASE
+# removed -lgss because we don't see the point
+#$CXX $CXXFLAGS -std=c++11 "$SCRIPT_DIR/libssh_server_fuzzer.cc" -I BUILD/include/ BUILD/build/src/libssh.a $LIB_FUZZING_ENGINE -lcrypto -lgss -lz -o $EXECUTABLE_NAME_BASE
+$CXX $CXXFLAGS -std=c++11 "$SCRIPT_DIR/libssh_server_fuzzer.cc" -I BUILD/include/ BUILD/build/src/libssh.a $LIB_FUZZING_ENGINE -lcrypto -lz -o $EXECUTABLE_NAME_BASE
 
