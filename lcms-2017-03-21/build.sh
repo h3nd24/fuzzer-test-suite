@@ -7,7 +7,8 @@
 build_lib() {
   rm -rf BUILD
   cp -rf SRC BUILD
-  (cd BUILD && ./autogen.sh && ./configure && make -j $JOBS)
+  # something went horribly wrong (leak sanitizer doesn't work under ptrace) when checking for cross-compiling. So, we just provide the host architecture
+  (cd BUILD && ./autogen.sh --host=x86_64 && ./configure --host=x86_64 && make -j $JOBS)
 }
 
 get_git_revision https://github.com/mm2/Little-CMS.git f9d75ccef0b54c9f4167d95088d4727985133c52 SRC
