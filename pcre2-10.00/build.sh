@@ -8,8 +8,8 @@ build_lib() {
   rm -rf BUILD
   cp -rf SRC BUILD
   (cd BUILD &&
-    ./autogen.sh &&
-     CCLD="$CXX $CXXFLAGS" ./configure --enable-never-backslash-C --with-match-limit=1000 --with-match-limit-recursion=1000 &&
+    ./autogen.sh --host=i386-linux &&
+     CCLD="$CXX $CXXFLAGS" ./configure --host=i386-linux --enable-never-backslash-C --with-match-limit=1000 --with-match-limit-recursion=1000 &&
      make -j
   )
 }
