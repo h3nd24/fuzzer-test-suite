@@ -48,10 +48,11 @@ elif [[ $FUZZING_ENGINE == "afl" ]]; then
   export CXX=${AFL_SRC}/afl-clang-fast++
   export CFLAGS=${CFLAGS:-"$FUZZ_CXXFLAGS"}
   export CXXFLAGS=${CXXFLAGS:-"$FUZZ_CXXFLAGS"}
-  export LDFLAGS="-m32 -fsanitize=address"
+  export LDFLAGS=${LDFLAGS:-"$FUZZ_CXXFLAGS"}
 else
   export CFLAGS=${CFLAGS:-"$FUZZ_CXXFLAGS"}
   export CXXFLAGS=${CXXFLAGS:-"$FUZZ_CXXFLAGS"}
+  export LDFLAGS=${LDFLAGS:-"$FUZZ_CXXFLAGS"}
 fi
 
 get_git_revision() {
