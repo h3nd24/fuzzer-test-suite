@@ -18,10 +18,11 @@ LIBFUZZER_SRC=${LIBFUZZER_SRC:-$(dirname $(dirname $SCRIPT_DIR))/Fuzzer}
 STANDALONE_TARGET=0
 AFL_SRC=${AFL_SRC:-$(dirname $(dirname $SCRIPT_DIR))/AFL}
 HONGGFUZZ_SRC=${HONGGFUZZ_SRC:-$(dirname $(dirname $SCRIPT_DIR))/honggfuzz}
-COVERAGE_FLAGS="-O0 -fsanitize-coverage=trace-pc-guard"
+#COVERAGE_FLAGS="-O0 -fsanitize-coverage=trace-pc-guard"
 #FUZZ_CXXFLAGS="-O2 -fno-omit-frame-pointer -gline-tables-only -fsanitize=address -fsanitize-address-use-after-scope -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
 #FUZZ_CXXFLAGS="-m32 -O2 -fno-omit-frame-pointer -gline-tables-only -fsanitize=address -fsanitize-address-use-after-scope -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
 FUZZ_CXXFLAGS="-m32 -fprofile-instr-generate -fcoverage-mapping"
+COVERAGE_FLAGS=${FUZZ_CXXFLAGS}
 CORPUS=CORPUS-$EXECUTABLE_NAME_BASE
 JOBS=${JOBS:-"8"}
 
@@ -41,6 +42,7 @@ elif [[ $FUZZING_ENGINE == "honggfuzz" ]]; then
 elif [[ $FUZZING_ENGINE == "coverage" ]]; then
   export CFLAGS=${CFLAGS:-$COVERAGE_FLAGS}
   export CXXFLAGS=${CXXFLAGS:-$COVERAGE_FLAGS}
+  export LDFLAGS=${LDFLAGS:-$COVERAGE_FLAGS}
 elif [[ $FUZZING_ENGINE == "afl" ]]; then
   export AFL_CC="clang"
   export AFL_CXX="clang++"
@@ -100,7 +102,7 @@ build_fsanitize_fuzzer() {
 # This provides a build with no fuzzing engine, just to measure coverage
 build_coverage () {
   STANDALONE_TARGET=1
-  $CC -O2 -c $LIBFUZZER_SRC/standalone/StandaloneFuzzTargetMain.c
+  $CC -O2 -m32 -c $LIBFUZZER_SRC/standalone/StandaloneFuzzTargetMain.c
   ar rc $LIB_FUZZING_ENGINE StandaloneFuzzTargetMain.o
 }
 
